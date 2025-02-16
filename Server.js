@@ -26,9 +26,17 @@ app.post("/api/sendemail", async (req, res) => {
     const sent_from = process.env.EMAIL_USER;
     const reply_to = process.env.EMAIL_USER;
     const subject = "Thank you for registering";
-    const message = `<h1>Hello ${name}</h1>
-      <p>Thank you for registering with us</p>
-      <p>Best regards</p>`;
+    const message = `
+      <h1>Subject: 📢 Join Our Exclusive Webinar – Soap & Detergent Mastery with A. Ahmad</h1>>
+<b>Dear ${name}</b>
+<p>We’re excited to invite you to an exclusive webinar on Soap & Detergent Production, hosted by A. Ahmad, an industry expert. </p><p>Learn the secrets of effective formulations, cost management, and business success.</p>
+<p>📅 Date:Sunday, February 23</p>
+<p>🕒 Time: 3:00 – 4:00pm</p>
+<p>Invite via link</p>
+<p>🔗 Join via Google Meet: https://calendar.app.google/Nq4E1C9VpAid1cKq8</p>
+<p>Secure your spot today! Register now:https://forms.gle/4muVoRcNj4Z3chEV9</p>
+<p>Best regards</p>,
+<p>[A.Ahmad]</p>`;
 
     await sendEmail(subject, message, send_to, sent_from, reply_to);
 
@@ -38,7 +46,10 @@ app.post("/api/sendemail", async (req, res) => {
     };
     await axios.post(process.env.SLACK_WEBHOOK_URL, slackMessage);
 
-    res.status(200).json({ success: true, message: "Email sent and Slack notification sent successfully" });
+    res.status(200).json({
+      success: true,
+      message: "Email sent and Slack notification sent successfully",
+    });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
